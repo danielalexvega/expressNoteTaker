@@ -1,3 +1,5 @@
+// [{"title":"Test Title","text":"Test text"}]
+
 const $noteTitle = $(".note-title");
 const $noteText = $(".note-textarea");
 const $saveNoteBtn = $(".save-note");
@@ -17,6 +19,7 @@ const getNotes = () => {
 
 // A function for saving a note to the db
 const saveNote = (note) => {
+  console.log(note);
   return $.ajax({
     url: "/api/notes",
     data: note,
@@ -55,6 +58,8 @@ const handleNoteSave = function () {
     title: $noteTitle.val(),
     text: $noteText.val(),
   };
+
+  console.log(newNote);
 
   saveNote(newNote).then(() => {
     getAndRenderNotes();
@@ -103,6 +108,9 @@ const handleRenderSaveBtn = function () {
 
 // Render's the list of note titles
 const renderNoteList = (notes) => {
+  console.log(typeof notes);  //string
+  notes = JSON.parse(notes);
+  console.log(typeof notes); //object
   $noteList.empty();
 
   const noteListItems = [];
