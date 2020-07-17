@@ -1,6 +1,8 @@
 # Note Taker
 Note Taker is an application that can be used to write, save, and delete notes. This application uses an express backend and save and retrieve note data from a JSON file.
 
+![](images/Homepage.JPG)
+
 >"The Internet is just a world passing around notes in a classroom" 
 >                                     - Jon Stewart
 
@@ -18,11 +20,16 @@ Note Taker users a number of open source projects to work properly:
 * [jQuery] - duh
 
 ### Using Note Taker
+
+![](images/expressNoteTaker.JPG)
+
 When open the page, just click on 'Get Started' to go to the Notes page. 
-![image of the Get Started page](images/Homepage.JPG)
+
+![](images/Notepage.JPG)
 
 If you have no notes saved, then you can just start right away. Or you can click the pencil in the top right corner. 
 
+![](images/pencil.JPG)
 
 As you start typing, a save button should appear next to the pencil. Click on that to save your file. 
 
