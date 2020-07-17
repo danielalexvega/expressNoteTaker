@@ -19,7 +19,7 @@ Note Taker users a number of open source projects to work properly:
 
 ### Using Note Taker
 When open the page, just click on 'Get Started' to go to the Notes page. 
-![image of the Get Started page](images/Homepage.jpg)
+![image of the Get Started page](images/Homepage.JPG)
 
 If you have no notes saved, then you can just start right away. Or you can click the pencil in the top right corner. 
 
