@@ -19,7 +19,6 @@ const getNotes = () => {
 
 // A function for saving a note to the db
 const saveNote = (note) => {
-  console.log(note);
   return $.ajax({
     url: "/api/notes",
     data: note,
@@ -35,13 +34,21 @@ const deleteNote = (id) => {
   });
 };
 
+const editNote = (editNote) => {
+  return $.ajax({
+    url: 'api/notes',
+    method: 'PUT',
+    data: editNote
+  });
+}
+
 // If there is an activeNote, display it, otherwise render empty inputs
 const renderActiveNote = () => {
   $saveNoteBtn.hide();
 
   if (activeNote.id) {
-    $noteTitle.attr("readonly", true);
-    $noteText.attr("readonly", true);
+    $noteTitle.attr("readonly", false);
+    $noteText.attr("readonly", false);
     $noteTitle.val(activeNote.title);
     $noteText.val(activeNote.text);
   } else {
@@ -54,22 +61,34 @@ const renderActiveNote = () => {
 
 // Get the note data from the inputs, save it to the db and update the view
 const handleNoteSave = function () {
-  const newNote = {
-    title: $noteTitle.val(),
-    text: $noteText.val(),
-  };
+  if (activeNote.id) {
 
-  console.log(newNote);
+    let edit = {
+      title: $noteTitle.val(),
+      text: $noteText.val(),
+      id: activeNote.id
+    };
 
-  saveNote(newNote).then(() => {
-    getAndRenderNotes();
-    renderActiveNote();
-  });
+    console.log(edit);
+    editNote(edit);
+
+
+  } else {
+    const newNote = {
+      title: $noteTitle.val(),
+      text: $noteText.val(),
+    };
+    saveNote(newNote).then(() => {
+      getAndRenderNotes();
+      renderActiveNote();
+    });
+
+  }
+
 };
 
 // Delete the clicked note
 const handleNoteDelete = function (event) {
-  // prevents the click listener for the list from being called when the button inside of it is clicked
   event.stopPropagation();
 
   const note = $(this).parent(".list-group-item").data();
@@ -87,6 +106,7 @@ const handleNoteDelete = function (event) {
 // Sets the activeNote and displays it
 const handleNoteView = function () {
   activeNote = $(this).data();
+  console.log(activeNote); //THIS IS AN OBJECT
   renderActiveNote();
 };
 
@@ -108,10 +128,12 @@ const handleRenderSaveBtn = function () {
 
 // Render's the list of note titles
 const renderNoteList = (notes) => {
-  console.log(typeof notes);  //string
-  notes = JSON.parse(notes);
-  console.log(typeof notes); //object
+  //Whenever I renderNoteList, I empty the $noteList and then 
   $noteList.empty();
+
+  console.log(notes);
+
+  notes = JSON.parse(notes);
 
   const noteListItems = [];
 
