@@ -58,10 +58,10 @@ app.post('/api/notes', (req, res) => {
 app.delete('/api/notes/:id', (req, res) => {
     let deleteID = parseInt(req.params.id);
     let deleteIndex = -1;
-    notes = JSON.parse(fs.readFileSync(path.join(__dirname, '/db/db.json'), 'utf-8')); 
+    notes = JSON.parse(fs.readFileSync(path.join(__dirname, '/db/db.json'), 'utf-8'));
 
     notes.forEach((note, index) => {
-        if(note.id === deleteID) {
+        if (note.id === deleteID) {
             deleteIndex = index;
         }
     });
@@ -78,13 +78,13 @@ app.delete('/api/notes/:id', (req, res) => {
 });
 
 app.put('/api/notes/', (req, res) => {
-    console.log(typeof req.body);
     let edit = (req.body); //object
+    edit.id = parseInt(edit.id);
     let editIndex = -1;
     notes = JSON.parse(fs.readFileSync(path.join(__dirname, '/db/db.json'), 'utf-8'));
 
     notes.forEach((note, index) => {
-        if(note.id === edit.id){
+        if (note.id === edit.id) {
             editIndex = index;
         }
     });
@@ -92,10 +92,8 @@ app.put('/api/notes/', (req, res) => {
     notes.splice(editIndex, 1, edit);
     fs.writeFile(path.join(__dirname, '/db/db.json'), JSON.stringify(notes), 'utf-8', (err) => {
         if (err) throw err;
-        console.log('File overwritten');
     });
-
-    res.json(notes);
+    res.json(edit);
 })
 
 

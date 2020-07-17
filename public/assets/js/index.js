@@ -59,6 +59,10 @@ const renderActiveNote = () => {
   }
 };
 
+// const renderEditNote = () => {
+
+// };
+
 // Get the note data from the inputs, save it to the db and update the view
 const handleNoteSave = function () {
   if (activeNote.id) {
@@ -69,9 +73,11 @@ const handleNoteSave = function () {
       id: activeNote.id
     };
 
-    console.log(edit);
-    editNote(edit);
-
+    editNote(edit).then( (data) => {
+      activeNote = data;
+      getAndRenderNotes();
+      renderActiveNote();
+    })
 
   } else {
     const newNote = {
@@ -82,9 +88,7 @@ const handleNoteSave = function () {
       getAndRenderNotes();
       renderActiveNote();
     });
-
   }
-
 };
 
 // Delete the clicked note
@@ -106,7 +110,6 @@ const handleNoteDelete = function (event) {
 // Sets the activeNote and displays it
 const handleNoteView = function () {
   activeNote = $(this).data();
-  console.log(activeNote); //THIS IS AN OBJECT
   renderActiveNote();
 };
 
@@ -130,11 +133,7 @@ const handleRenderSaveBtn = function () {
 const renderNoteList = (notes) => {
   //Whenever I renderNoteList, I empty the $noteList and then 
   $noteList.empty();
-
-  console.log(notes);
-
   notes = JSON.parse(notes);
-
   const noteListItems = [];
 
   // Returns jquery object for li with given text and delete button
@@ -152,16 +151,13 @@ const renderNoteList = (notes) => {
     }
     return $li;
   };
-
   if (notes.length === 0) {
     noteListItems.push(create$li("No saved Notes", false));
   }
-
   notes.forEach((note) => {
     const $li = create$li(note.title).data(note);
     noteListItems.push($li);
   });
-
   $noteList.append(noteListItems);
 };
 
