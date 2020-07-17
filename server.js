@@ -2,7 +2,6 @@ const express = require('express');
 const path = require('path');
 const fs = require('fs');
 
-
 const app = express();
 var PORT = process.env.PORT || 3000;
 let notes;
@@ -16,15 +15,6 @@ app.get('/notes', (req, res) => {
     res.sendFile(path.join(__dirname, 'public/notes.html'));
 });
 
-// * The application should have a `db.json` file on the backend that will be used to store and retrieve notes using the `fs` module.
-
-// * The following API routes should be created:
-//   * GET `/api/notes` - Should read the `db.json` file and return all saved notes as JSON.
-//   * POST `/api/notes` - Should receive a new note to save on the request body, add it to the `db.json` file, and then return the new note to the client.
-//   * DELETE `/api/notes/:id` - Should receive a query parameter containing the id of a note to delete. This means you'll need to find a way to give each note a unique `id` when it's saved. In order to delete a note, you'll need to read all notes from the `db.json` file, remove the note with the given `id` property, and then rewrite the notes to the `db.json` file.
-
-
-//this needs to be a string...
 app.get('/api/notes', (req, res) => {
     notes = fs.readFileSync(path.join(__dirname, '/db/db.json'), 'utf-8');
     return res.json(notes);
@@ -32,15 +22,13 @@ app.get('/api/notes', (req, res) => {
 
 app.post('/api/notes', (req, res) => {
     notes = fs.readFileSync(path.join(__dirname, '/db/db.json'), 'utf-8');
-    //THIS IS A STRING... WE'RE GIVEN A STRING, WE PASS IT IN, AND WE UPDATE NOTEID
     updateNoteId(notes);
     console.log(`THE NOTE ID IS ${noteId}`);
-    let newNote = req.body;   //THIS IS AN OBJECT
-
+    let newNote = req.body; 
     newNote.id = noteId;
     console.log(newNote);
 
-    if (typeof notes === 'string') {  //CONVERT THE STRING BACK IN AN ARRAY (OBJECT)
+    if (typeof notes === 'string') {
         notes = JSON.parse(notes);
     }
     notes.push(newNote);
@@ -51,9 +39,6 @@ app.post('/api/notes', (req, res) => {
     });
     return res.json(notes);
 });
-
-
-
 
 app.delete('/api/notes/:id', (req, res) => {
     let deleteID = parseInt(req.params.id);
@@ -78,8 +63,8 @@ app.delete('/api/notes/:id', (req, res) => {
 });
 
 app.put('/api/notes/', (req, res) => {
-    let edit = (req.body); //object
-    edit.id = parseInt(edit.id);
+    let edit = (req.body);
+    edit.id = parseInt(edit.id); 
     let editIndex = -1;
     notes = JSON.parse(fs.readFileSync(path.join(__dirname, '/db/db.json'), 'utf-8'));
 
@@ -90,12 +75,12 @@ app.put('/api/notes/', (req, res) => {
     });
 
     notes.splice(editIndex, 1, edit);
+
     fs.writeFile(path.join(__dirname, '/db/db.json'), JSON.stringify(notes), 'utf-8', (err) => {
         if (err) throw err;
     });
     res.json(edit);
 })
-
 
 app.get('*', (req, res) => {
     res.sendFile(path.join(__dirname, 'public/index.html'));

@@ -23,6 +23,10 @@ html, body {
     margin-top: 0px;
     font-size: 40px;
   }
+
+  .quote{
+    font-family: 'Cedarville Cursive', cursive;
+  }
   
   .custom-navbar{
     background-color: #0D324D;
