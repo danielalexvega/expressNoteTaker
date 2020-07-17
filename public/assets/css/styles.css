@@ -26,10 +26,13 @@ html, body {
 
   .quote{
     font-family: 'Cedarville Cursive', cursive;
+    font-size: 24px;;
   }
   
   .custom-navbar{
     background-color: #0D324D;
+    padding: 8px;
+
   }
 
   .save-note {
