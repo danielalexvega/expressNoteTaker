@@ -58,6 +58,7 @@ html, body {
     height: calc(100% - 63px);
     padding-top: 15px;
     background-color: floralwhite;
+    padding-bottom: 100px;
   }
   
   .note-title {
